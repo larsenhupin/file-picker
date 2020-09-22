@@ -9,6 +9,9 @@ class Controller():
 		self.v.init()
 		self.bindEvents()
 		self.v.displayProgram()
+		# Temporary
+		self.v.afficherMenu()
+		# ---------
 		self.v.root.mainloop()
 
 	def setup(self):
@@ -19,13 +22,17 @@ class Controller():
 
 	def bindEvents(self):
 		
-		self.v.boutonRandom.config(command=self.v.displayProgram)
-		#self.v.pathRandomEntryBox.bind("<1>", self.handle_click)
+		self.v.programButton.config(command=self.v.displayProgram)
+
 		self.v.sameTypeCheckbox.config(command=self.v.getIsAllCheckbox)
+
 		self.v.pickRandomCheckbox.config(command=self.v.getIsRandomCheckbox)
-		self.v.pathRandomButton.config(command=self.v.open_directory_random)
-		self.v.destRandomButton.config(command=self.v.open_directory_destRandom)
+		self.v.pathSrcButton.config(command=self.v.open_directory_src)
+		self.v.pathDestButton.config(command=self.v.open_directory_dest)
+
 		self.v.generateRandomButton.config(command=self.GenerateRandom)
+		
+		#self.v.pathRandomEntryBox.bind("<1>", self.handle_click)
 
 	# ------------------------------------------------------------------------	
 
