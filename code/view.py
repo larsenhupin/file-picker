@@ -109,7 +109,6 @@ class View():
 		self.frameMenu.pack_forget()
 
 
-
 	# Here's lies the problem -------------------------------------
 	def open_directory_src(self):
 		source = filedialog.askdirectory()
