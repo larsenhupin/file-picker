@@ -80,7 +80,7 @@ class View():
 
 		self.infoListbox = Listbox(self.frameProgram, width=25, height=10)
 		self.infoListbox.grid(row=5, column=0, rowspan=6, columnspan=2, sticky='w')
-		self.infoListbox.configure(bd=1, relief="sunken", highlightthickness=0)
+		self.infoListbox.configure(bd=1, relief="sunken", highlightthickness=0, selectbackground="white", selectforeground="black", activestyle ="none")
 
 		self.pickButton = Button(self.frameProgram,text='Pick', width=10)
 		self.pickButton.grid(row=9, column=2, columnspan=2, sticky='e')
@@ -97,7 +97,7 @@ class View():
 			self.numberRandomEntry.configure(state="disable")
 
 	def updateExtComboBox(self):
-		self.extComboBox.config(state="normal", values=self.c.fp.stats.extensions)
+		self.extComboBox.config(state="readonly", values=self.c.fp.stats.extensions)
 		self.extComboBox.set(self.c.fp.stats.mostFrequentExtension)
 
 	def afficherMenu(self):
