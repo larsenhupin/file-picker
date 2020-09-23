@@ -66,8 +66,8 @@ class View():
 
 		self.extDerouleText = Label(self.frameProgram, text="Extensions :")
 		self.extDerouleText.grid(row=8, column=2, sticky='w', padx=0, pady=0)
-		self.extComboBoxRandom = ttk.Combobox(self.frameProgram, width=5, state='disable')
-		self.extComboBoxRandom.grid(row=8, column=3, sticky='e')
+		self.extComboBox = ttk.Combobox(self.frameProgram, width=5, state='disable')
+		self.extComboBox.grid(row=8, column=3, sticky='e')
 
 		# ------------------------------------------------------------------------------------------------
 
@@ -97,8 +97,8 @@ class View():
 			self.numberRandomEntry.configure(state="disable")
 
 	def updateExtComboBox(self):
-		self.extComboBoxRandom.config(state="normal", values=self.c.fp.stats.extensions)
-		self.extComboBoxRandom.set(self.c.fp.stats.mostFrequentExtension)
+		self.extComboBox.config(state="normal", values=self.c.fp.stats.extensions)
+		self.extComboBox.set(self.c.fp.stats.mostFrequentExtension)
 
 	def afficherMenu(self):
 		self.frameMenu.pack()
