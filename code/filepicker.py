@@ -67,6 +67,13 @@ class FilePicker(object):
 		self.stats = Stats(self.filesInfo)
 		self.statsInfos = self.createStatsInfo()
 
+	def getParentDirectory(self, s):
+		i = 0
+		for c in reversed(s):
+			i+=1
+			if(c == '/'):
+				return s[:len(s)-i+1]
+
 	def generateRandomFile(self):
 		self.filenamesPicked  = random.sample(self.listFilenames, self.numberOfFiles)
 		self.printfilename(self.filenamesPicked)

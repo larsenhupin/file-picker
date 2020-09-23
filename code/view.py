@@ -108,6 +108,9 @@ class View():
 		self.frameProgram.pack()
 		self.frameMenu.pack_forget()
 
+
+
+	# Here's lies the problem -------------------------------------
 	def open_directory_src(self):
 		source = filedialog.askdirectory()
 		if(source):
@@ -117,6 +120,14 @@ class View():
 			self.pathSrcEntryBox.config(state="readonly")
 			# --------------------------------------------------
 			self.c.fp.source = source
+			self.c.fp.dest = self.c.fp.getParentDirectory(source)
+			
+			self.pathDestEntryBox.config(state='normal')
+			self.pathDestEntryBox.delete(0, END)
+			self.pathDestEntryBox.insert(0, self.c.fp.dest)
+			self.pathDestEntryBox.config(state="readonly")
+			
+			
 			self.c.fp.setup()
 			self.updateExtComboBox()
 
@@ -124,9 +135,11 @@ class View():
 			for s in self.c.fp.statsInfos:	
 				self.infoListbox.insert(END, s)
 
+	# ------------------------------------------------------------
+
 	def open_directory_dest(self):
-		self.pathRandomDest = filedialog.askdirectory()
+		self.pathDest = filedialog.askdirectory()
 		self.pathDestEntryBox.config(state='normal')
 		self.pathDestEntryBox.delete(0, END)
-		self.pathDestEntryBox.insert(0, self.pathRandomDest)
+		self.pathDestEntryBox.insert(0, self.pathDest)
 		self.pathDestEntryBox.config(state="readonly")
