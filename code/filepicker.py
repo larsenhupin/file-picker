@@ -72,22 +72,66 @@ class FilePicker(object):
 	def __init__(self):
 		self.src = ""
 		self.dest = ""
-		self.defaultFolderName = "testdata"
-		self.filenamesPicked = []
+		self.dInfos = None
+		self.dInfosControl = []
+		self.defaultFolderName = "_file/"
+		self.destfolderName = ""
+		self.defaultDestination = ""
 
-	def setSrc(self, src):
-		self.src = src
+		self.destEntryBox = ""
 
-	def setDest(self, dest):
-		self.dest = dest
+		self.ext = ""
+
+		self.fInfoPicked = []
+		self.pathFileToCopy = []
 
 	def setup(self):
 		self.dInfos = DirInfo()
 		fInfos = self.getFilesInfos()
 		self.dInfos.init(fInfos)
 
+
+	def pick(self, ext):
+		self.ext = ext
+		self.generateFolderName(self.ext)
+		self.generateFinalDest()
+		util.makeDir(self.dest)
+		self.pickFilesInfo()
+		self.generatePathFileToCopy()
+	
+	def pickFilesInfo(self):
+		for f in self.dInfos.fInfos:
+			if(f.extension == "."+self.ext):
+
+				self.fInfoPicked.append(f)
+
+	def generatePathFileToCopy(self):
+		for f in self.fInfoPicked:
+			self.pathFileToCopy.append(self.dest+f.filename+f.extension)
+
+		print(self.pathFileToCopy)
+
+	def generateFinalDest(self):
+		if(self.destEntryBox == ""):
+			folderDest = self.setDefaultDest(self.src)
+			self.dest = folderDest+self.destFolderName
+		else:
+			self.dest = self.destEntryBox+self.destFolderName
+
+	def generateFolderName(self, ext):
+		self.destFolderName = ext+self.defaultFolderName
+
+	def pushDirInfo(self):
+		 self.dInfosControl.append(self.dInfos)
+
 	def setDefaultDest(self, src):
-		self.defaultDest = self.getParentDirectory(src)+self.defaultFolderName
+		return self.getParentDirectory(src)
+
+	def setSrc(self, src):
+		self.src = src
+
+	def setDest(self, dest):
+		self.dest = dest
 
 	def getParentDirectory(self, s):
 		i = 0

@@ -92,6 +92,8 @@ class View():
 			self.numberRandomEntry.configure(state="normal")
 		else:
 			self.numberRandomEntry.configure(state="disable")
+	def getChoosenExt(self):
+		return self.extComboBox.get()
 
 	def updateExtComboBox(self):
 		self.extComboBox.config(state="readonly", values=self.c.fp.dInfos.extensions)
@@ -105,15 +107,18 @@ class View():
 		self.frameProgram.pack()
 		self.frameMenu.pack_forget()
 
-	# Here's lies the problem -------------------------------------
 	def open_directory_src(self):
 		src = filedialog.askdirectory()
 		if(src):
+
+			self.infoListbox.delete(0, END)
+
 			self.pathDestButton.config(state="normal")
 			self.pathSrcEntryBox.config(state='normal')
 			self.pathSrcEntryBox.delete(0, END)
 			self.pathSrcEntryBox.insert(0, src)
 			self.pathSrcEntryBox.config(state="readonly")
+
 			# --------------------------------------------------
 			self.c.fp.setSrc(src)
 			self.c.fp.setDefaultDest(src)
@@ -124,14 +129,17 @@ class View():
 			self.pathDestEntryBox.config(state="readonly")
 			
 			
+			if(self.c.fp.dInfos is not None):
+				self.c.fp.pushDirInfo()
+				self.c.fp.fInfos = None
+
 			self.c.fp.setup()
 			self.updateExtComboBox()
 
-			self.infoListbox.configure(state='normal')
+			self.infoListbox.config(state='normal')
+
 			for s in self.c.fp.dInfos.statsInfo:
 				self.infoListbox.insert(END, s)
-
-	# ------------------------------------------------------------
 
 	def open_directory_dest(self):
 		dest = filedialog.askdirectory()
@@ -140,4 +148,3 @@ class View():
 			self.pathDestEntryBox.delete(0, END)
 			self.pathDestEntryBox.insert(0, dest)
 			self.pathDestEntryBox.config(state="readonly")
-			self.c.fp.setDest(dest)

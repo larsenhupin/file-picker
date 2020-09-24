@@ -24,8 +24,15 @@ class Controller():
 		self.v.pickRandomCheckbox.config(command=self.v.getIsRandomCheckbox)
 		self.v.pathSrcButton.config(command=self.v.open_directory_src)
 		self.v.pathDestButton.config(command=self.v.open_directory_dest)
-		#self.v.pickButton.config(command=self.GenerateRandom)
-		#self.v.pathRandomEntryBox.bind("<1>", self.handle_click)
+		self.v.pickButton.config(command=self.pick)
+
+	def pick(self):
+		choosenExt = self.v.getChoosenExt()
+		self.fp.pick(choosenExt)
+
+
+	def setDestPath(self):
+		self.fp.destEntryBox = self.v.pathDestEntryBox.get()
 
 	# ------------------------------------------------------------------------	
 

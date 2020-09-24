@@ -33,10 +33,18 @@ def printfilename(source):
 def changeDir(path):
 	os.chdir(path)
 
-def makeDir(dir):
+def makeDir(dirname):
+	i=0
+	while True:
+		try:
+			if(i == 0):
+				os.mkdir(dirname)
+			else:
 
-	shutil.rmtree(dir, ignore_errors=True)
-	os.mkdir(dir)
+				os.mkdir(dirname + " ("+str(i)+")")
+			break
+		except FileExistsError:
+			i+=1
 
 def hashNumeral(self, value):
 	twoDigits = []
