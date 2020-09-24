@@ -19,9 +19,15 @@ def getFilesInfos(source):
 
 	return filesInfos
 
-def copy_files(source, destination):
-	filesname = copy_tree(source, destination, 1, 1, 1, 1)
+#def copy_files(source, destination):
+#	filesname = copy_tree(source, destination, 1, 1, 1, 1)
 
+def copy_files(filespaths):
+
+	for paths in filespaths:
+		shutil.copy2(paths[0], paths[1])
+
+	
 def retrievefilename(source):
 	return os.listdir(source)
 
@@ -38,7 +44,7 @@ def makeDir(dirname):
 	while True:
 		try:
 			if(i == 0):
-				
+
 				os.mkdir(dirname+"/")
 			else:
 				os.mkdir(dirname + " ("+str(i)+")/")

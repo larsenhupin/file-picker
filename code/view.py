@@ -110,9 +110,7 @@ class View():
 	def open_directory_src(self):
 		src = filedialog.askdirectory()
 		if(src):
-
 			self.infoListbox.delete(0, END)
-
 			self.pathDestButton.config(state="normal")
 			self.pathSrcEntryBox.config(state='normal')
 			self.pathSrcEntryBox.delete(0, END)

@@ -77,11 +77,8 @@ class FilePicker(object):
 		self.defaultFolderName = "_file"
 		self.destfolderName = ""
 		self.defaultDestination = ""
-
 		self.destEntryBox = ""
-
 		self.ext = ""
-
 		self.fInfoPicked = []
 		self.pathFileToCopy = []
 
@@ -90,7 +87,6 @@ class FilePicker(object):
 		fInfos = self.getFilesInfos()
 		self.dInfos.init(fInfos)
 
-
 	def pick(self, ext):
 		self.ext = ext
 		self.generateFolderName(self.ext)
@@ -98,6 +94,7 @@ class FilePicker(object):
 		util.makeDir(self.dest)
 		self.pickFilesInfo()
 		self.generatePathFileToCopy()
+		util.copy_files(self.pathFileToCopy)
 	
 	def pickFilesInfo(self):
 		for f in self.dInfos.fInfos:
@@ -107,7 +104,7 @@ class FilePicker(object):
 
 	def generatePathFileToCopy(self):
 		for f in self.fInfoPicked:
-			self.pathFileToCopy.append(self.dest+"/"+f.filename+f.extension)
+			self.pathFileToCopy.append((f.fileFullname, self.dest+"/"+f.filename+f.extension))
 
 		print(self.pathFileToCopy)
 
@@ -143,7 +140,6 @@ class FilePicker(object):
 	def generateRandomFile(self):
 		self.filenamesPicked  = random.sample(self.listFilenames, self.numberOfFiles)
 		self.printfilename(self.filenamesPicked)
-
 
 		for item in self.filenamesPicked:
 			filename = os.path.basename(item)
