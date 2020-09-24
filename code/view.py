@@ -94,8 +94,8 @@ class View():
 			self.numberRandomEntry.configure(state="disable")
 
 	def updateExtComboBox(self):
-		self.extComboBox.config(state="readonly", values=self.c.fp.stats.extensions)
-		self.extComboBox.set(self.c.fp.stats.mostFrequentExtension)
+		self.extComboBox.config(state="readonly", values=self.c.fp.dirInfo.extensions)
+		self.extComboBox.set(self.c.fp.dirInfo.mostFrequentExtension)
 
 	def afficherMenu(self):
 		self.frameMenu.pack()
@@ -105,24 +105,22 @@ class View():
 		self.frameProgram.pack()
 		self.frameMenu.pack_forget()
 
-
 	# Here's lies the problem -------------------------------------
 	def open_directory_src(self):
-		source = filedialog.askdirectory()
-		if(source):
-
+		src = filedialog.askdirectory()
+		if(src):
 			self.pathDestButton.config(state="normal")
 			self.pathSrcEntryBox.config(state='normal')
 			self.pathSrcEntryBox.delete(0, END)
-			self.pathSrcEntryBox.insert(0, source)
+			self.pathSrcEntryBox.insert(0, src)
 			self.pathSrcEntryBox.config(state="readonly")
 			# --------------------------------------------------
-			self.c.fp.source = source
-			self.c.fp.dest = self.c.fp.getParentDirectory(source)
-			
+			self.c.fp.setSrc(src)
+			self.c.fp.setDefaultDest(src)
+			# ---------------------------------------------------
+
 			self.pathDestEntryBox.config(state='normal')
 			self.pathDestEntryBox.delete(0, END)
-			self.pathDestEntryBox.insert(0, self.c.fp.dest)
 			self.pathDestEntryBox.config(state="readonly")
 			
 			
@@ -136,8 +134,10 @@ class View():
 	# ------------------------------------------------------------
 
 	def open_directory_dest(self):
-		self.pathDest = filedialog.askdirectory()
-		self.pathDestEntryBox.config(state='normal')
-		self.pathDestEntryBox.delete(0, END)
-		self.pathDestEntryBox.insert(0, self.pathDest)
-		self.pathDestEntryBox.config(state="readonly")
+		dest = filedialog.askdirectory()
+		if(dest):
+			self.pathDestEntryBox.config(state='normal')
+			self.pathDestEntryBox.delete(0, END)
+			self.pathDestEntryBox.insert(0, dest)
+			self.pathDestEntryBox.config(state="readonly")
+			self.c.fp.setDest(dest)

@@ -9,9 +9,7 @@ class Controller():
 		self.v.init()
 		self.bindEvents()
 		self.v.displayProgram()
-		# Temporary
 		self.v.afficherMenu()
-		# ---------
 		self.v.root.mainloop()
 
 	def setup(self):

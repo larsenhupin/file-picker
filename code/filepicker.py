@@ -4,15 +4,7 @@ import util
 from collections import Counter
 import re
 
-class FileInfo(object):
-	def __init__(self, fileFullname , filepath, filename, extension, size):
-		self.fileFullname = fileFullname
-		self.filepath = filepath
-		self.filename = filename
-		self.extension = extension
-		self.size = size
-
-class Stats(object):
+class DirInfo(object):
 	def __init__(self, filesInfo):
 		self.filesInfo = filesInfo
 		self.numberOfFiles = self.getNumberOfFiles()
@@ -52,20 +44,34 @@ class Stats(object):
 		countOfExtensionSorted = sorted(countOfExtension.items(), key=lambda x: x[1], reverse=True)
 		return countOfExtensionSorted
 
+class FileInfo(object):
+	def __init__(self, fileFullname , filepath, filename, extension, size):
+		self.fileFullname = fileFullname
+		self.filepath = filepath
+		self.filename = filename
+		self.extension = extension
+		self.size = size
+
 class FilePicker(object):
 	def __init__(self):
 		self.filesInfo = []
-		self.extensions = []
-		self.stats = None
-		self.source = None
-		self.statsInfos = ""
-		# ------------------------
 		self.filenamesPicked = []
+		self.statsInfos = ""
+		self.destFolderName = "testData"
+
+	def setSrc(self, src):
+		self.src = src
+
+	def setDest(self, dest):
+		self.dest = dest
 
 	def setup(self):
 		self.getFilesInfos()
-		self.stats = Stats(self.filesInfo)
+		self.dirInfo = DirInfo(self.filesInfo)
 		self.statsInfos = self.createStatsInfo()
+
+	def setDefaultDest(self, src):
+		self.defaultDest = self.getParentDirectory(src)+self.destFolderName
 
 	def getParentDirectory(self, s):
 		i = 0
@@ -85,7 +91,7 @@ class FilePicker(object):
 
 
 	def getFilesInfos(self):
-		self.filesInfo = util.getFilesInfos(self.source)
+		self.filesInfo = util.getFilesInfos(self.src)
 
 	def printFilesInfos(self):
 		for f in self.filesInfo:
@@ -93,8 +99,8 @@ class FilePicker(object):
 
 	def createStatsInfo(self):
 		s = []
-		s.append("all: " + str(self.stats.numberOfFiles))
-		for k, v in self.stats.countOfExtension:
+		s.append("all: " + str(self.dirInfo.numberOfFiles))
+		for k, v in self.dirInfo.countOfExtension:
 			s.append("" + k + ": " + str(v))
 
 		return s
