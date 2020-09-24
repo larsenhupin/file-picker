@@ -81,6 +81,7 @@ class FilePicker(object):
 		self.ext = ""
 		self.fInfoPicked = []
 		self.pathFileToCopy = []
+		self.pathFileCopied = []
 
 	def setup(self):
 		self.dInfos = DirInfo()
@@ -92,14 +93,24 @@ class FilePicker(object):
 		self.generateFolderName(self.ext)
 		self.generateFinalDest()
 		util.makeDir(self.dest)
-		self.pickFilesInfo()
-		self.generatePathFileToCopy()
+
+		if not self.fInfoPicked:
+			self.pickFilesInfo()
+		else:
+			self.fInfoPicked.clear()
+			self.pickFilesInfo()
+
+		if not self.pathFileToCopy:
+			self.generatePathFileToCopy()
+		else:
+			self.pushCopiedFile()
+			self.generatePathFileToCopy()
+
 		util.copy_files(self.pathFileToCopy)
 	
 	def pickFilesInfo(self):
 		for f in self.dInfos.fInfos:
 			if(f.extension == "."+self.ext):
-
 				self.fInfoPicked.append(f)
 
 	def generatePathFileToCopy(self):
@@ -117,6 +128,10 @@ class FilePicker(object):
 
 	def generateFolderName(self, ext):
 		self.destFolderName = ext+self.defaultFolderName
+
+	def pushCopiedFile(self):
+		self.pathFileCopied.append(self.pathFileToCopy)
+		self.pathFileToCopy.clear()
 
 	def pushDirInfo(self):
 		 self.dInfosControl.append(self.dInfos)
