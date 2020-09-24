@@ -74,7 +74,7 @@ class FilePicker(object):
 		self.dest = ""
 		self.dInfos = None
 		self.dInfosControl = []
-		self.defaultFolderName = "_file/"
+		self.defaultFolderName = "_file"
 		self.destfolderName = ""
 		self.defaultDestination = ""
 
@@ -107,7 +107,7 @@ class FilePicker(object):
 
 	def generatePathFileToCopy(self):
 		for f in self.fInfoPicked:
-			self.pathFileToCopy.append(self.dest+f.filename+f.extension)
+			self.pathFileToCopy.append(self.dest+"/"+f.filename+f.extension)
 
 		print(self.pathFileToCopy)
 

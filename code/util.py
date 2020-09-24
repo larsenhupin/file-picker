@@ -38,10 +38,10 @@ def makeDir(dirname):
 	while True:
 		try:
 			if(i == 0):
-				os.mkdir(dirname)
+				
+				os.mkdir(dirname+"/")
 			else:
-
-				os.mkdir(dirname + " ("+str(i)+")")
+				os.mkdir(dirname + " ("+str(i)+")/")
 			break
 		except FileExistsError:
 			i+=1

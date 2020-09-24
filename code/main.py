@@ -27,12 +27,13 @@ class Controller():
 		self.v.pickButton.config(command=self.pick)
 
 	def pick(self):
+		self.setDestPath()
 		choosenExt = self.v.getChoosenExt()
 		self.fp.pick(choosenExt)
 
 
 	def setDestPath(self):
-		self.fp.destEntryBox = self.v.pathDestEntryBox.get()
+		self.fp.destEntryBox = self.v.pathDestEntryBox.get()+"/"
 
 	# ------------------------------------------------------------------------	
 
