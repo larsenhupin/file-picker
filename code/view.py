@@ -17,14 +17,14 @@ class View():
 		self.frameProgram = Frame(self.root, width=475, height=250)
 
 	def init(self):
-		self.init_window()
-		self.init_random_window()
+		self.init_menu_window()
+		self.init_program_window()
 
-	def init_window(self):
+	def init_menu_window(self):
 		self.programButton = Button(self.frameMenu, text='File Picker',width=15,height=3)
 		self.programButton.grid(row=10,column=1, pady=100)
 
-	def init_random_window(self):
+	def init_program_window(self):
 		self.pathSrcText = Label(self.frameProgram, text="Source:")
 		self.pathSrcText.grid(row=0, column=0, padx=0, sticky='w')
 		self.pathSrcEntryBox = Entry(self.frameProgram, textvariable="5", width=50)
@@ -38,11 +38,11 @@ class View():
 		self.pathDestEntryBox = Entry(self.frameProgram, textvariable='6', width=50)
 		self.pathDestEntryBox.grid(row=1, column=1, columnspan=2, padx=0, pady=0, sticky='w')
 		self.pathDestEntryBox.configure(state="readonly", readonlybackground="white")
-		self.pathDestButton = Button(self.frameProgram, text='-->', width=5, height=1)
+		self.pathDestButton = Button(self.frameProgram, text='-->', width=5, height=1, state="disable")
 		self.pathDestButton.grid(row=1, column=3,padx=0, sticky='e')
 
 		# ------------------------------------------------------------------------------------------------
-
+		# Radio Button
 		self.sameTypeLabel = Label(self.frameProgram, text='All of choosen types:')
 		self.sameTypeLabel.grid(row=5, column=2, sticky='w')
 
@@ -57,26 +57,23 @@ class View():
 		self.pickRandomCheckbox = Checkbutton(self.frameProgram, variable=self.isRandom)
 		self.pickRandomCheckbox.grid(row=6, column=3, sticky='e')
 
-		# ------------------------------------------------------------------------------------------------		
+		# ------------------------------------------------------------------------------------------------
 
 		self.numberRandomText = Label(self.frameProgram, text='Number of files:')
 		self.numberRandomText.grid(row=7, column=2,padx=0,pady=0,sticky='w')
-		self.numberRandomEntry = Entry(self.frameProgram, textvariable="7", width=10,state="disable")
+		self.numberRandomEntry = Entry(self.frameProgram, textvariable="7", width=10, state="disable")
 		self.numberRandomEntry.grid(row=7, column=3,padx=0,pady=0,sticky='e')
 
 		self.extDerouleText = Label(self.frameProgram, text="Extensions :")
 		self.extDerouleText.grid(row=8, column=2, sticky='w', padx=0, pady=0)
+
 		self.extComboBox = ttk.Combobox(self.frameProgram, width=5, state='disable')
 		self.extComboBox.grid(row=8, column=3, sticky='e')
 
 		# ------------------------------------------------------------------------------------------------
 
 		self.infoText = Text(self.frameProgram, width=25, height=10)
-		#self.infoText.grid(row=5, column=0, rowspan=6, columnspan=2, sticky='w')
-		#self.infoText.configure(bd=1, relief="solid")
-		#self.infoText.configure(state='normal')
-		#self.infoText.insert(END, "")
-		self.infoText.configure(state='disabled')
+		self.infoText.configure(state='disable')
 
 		self.infoListbox = Listbox(self.frameProgram, width=25, height=10)
 		self.infoListbox.grid(row=5, column=0, rowspan=6, columnspan=2, sticky='w')
@@ -113,6 +110,8 @@ class View():
 	def open_directory_src(self):
 		source = filedialog.askdirectory()
 		if(source):
+
+			self.pathDestButton.config(state="normal")
 			self.pathSrcEntryBox.config(state='normal')
 			self.pathSrcEntryBox.delete(0, END)
 			self.pathSrcEntryBox.insert(0, source)
