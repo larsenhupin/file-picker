@@ -130,7 +130,7 @@ class View():
 			self.infoListbox.configure(state='normal')
 			for s in self.c.fp.statsInfos:	
 				self.infoListbox.insert(END, s)
-
+				
 	# ------------------------------------------------------------
 
 	def open_directory_dest(self):

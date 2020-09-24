@@ -67,7 +67,8 @@ class FilePicker(object):
 
 	def setup(self):
 		self.getFilesInfos()
-		self.dirInfo = DirInfo(self.filesInfo)
+		self.dInfos = DirInfo(self.filesInfo)
+		self.dInfo.
 		self.statsInfos = self.createStatsInfo()
 
 	def setDefaultDest(self, src):
@@ -89,7 +90,6 @@ class FilePicker(object):
 			filename = os.path.basename(item)
 			copyfile(item, os.path.join(self.destPath, filename))
 
-
 	def getFilesInfos(self):
 		self.filesInfo = util.getFilesInfos(self.src)
 
@@ -99,8 +99,8 @@ class FilePicker(object):
 
 	def createStatsInfo(self):
 		s = []
-		s.append("all: " + str(self.dirInfo.numberOfFiles))
-		for k, v in self.dirInfo.countOfExtension:
+		s.append("all: " + str(self.dInfos.numberOfFiles))
+		for k, v in self.dInfos.countOfExtension:
 			s.append("" + k + ": " + str(v))
 
 		return s
