@@ -4,46 +4,6 @@ import util
 from collections import Counter
 import re
 
-class DirInfo(object):
-	def __init__(self, filesInfo):
-		self.filesInfo = filesInfo
-		self.numberOfFiles = self.getNumberOfFiles()
-		self.allExtensions = self.getAllExtensions()
-		self.extensions = self.getExtensions()
-		self.mostFrequentExtension = self.getMostFrequentExt()
-		self.countOfExtension = self.getNumberOfEachFile()
-
-	def getNumberOfFiles(self):
-		return len(self.filesInfo)
-
-	def getAllExtensions(self):
-		allExtensions = []
-		for f in self.filesInfo:
-			s = f.extension.lower()
-			s = s[1:]
-			allExtensions.append(s)
-		return allExtensions
-
-	def getExtensions(self):
-		exts = set(self.allExtensions)
-		return list(exts)
-
-	def getMostFrequentExt(self):
-		data = Counter(self.allExtensions)
-		return data.most_common(1)[0][0]
-
-	def getNumberOfEachFile(self):
-		countOfExtension = {}
-
-		for ext in self.extensions:
-			countOfExtension[ext] = 0
-
-		for ext in self.allExtensions:
-			countOfExtension[ext] += 1
-
-		countOfExtensionSorted = sorted(countOfExtension.items(), key=lambda x: x[1], reverse=True)
-		return countOfExtensionSorted
-
 class FileInfo(object):
 	def __init__(self, fileFullname , filepath, filename, extension, size):
 		self.fileFullname = fileFullname
@@ -52,12 +12,68 @@ class FileInfo(object):
 		self.extension = extension
 		self.size = size
 
+class DirInfo(object):
+	def __init__(self):
+		self.fInfos = []
+		self.countOfExtension = 0
+		self.numberOfFiles = 0
+		self.allExtensions = []
+		self.extensions = []
+		self.mostFrequentExtension = ""
+		self.statsInfo = ""
+
+	def init(self, fInfos):
+		self.fInfos = fInfos
+		self.getNumberOfFiles()
+		self.getAllExtensions()
+		self.getExtensions()
+		self.getMostFrequentExt()
+		self.getNumberOfEachFile()
+		self.createStatsInfo()
+
+	def createStatsInfo(self):
+		s = []
+		s.append("all: " + str(self.numberOfFiles))
+		for k, v in self.countOfExtension:
+			s.append("" + k + ": " + str(v))
+		self.statsInfo = s
+
+	def getNumberOfFiles(self):
+		self.numberOfFiles = len(self.fInfos)
+
+	def getAllExtensions(self):
+		allExtensions = []
+		for f in self.fInfos:
+			s = f.extension.lower()
+			s = s[1:]
+			allExtensions.append(s)
+		self.allExtensions = allExtensions
+
+	def getExtensions(self):
+		exts = set(self.allExtensions)
+		self.extensions = list(exts)
+
+	def getMostFrequentExt(self):
+		data = Counter(self.allExtensions)
+		self.mostFrequentExtension = data.most_common(1)[0][0]
+
+	def getNumberOfEachFile(self):
+		countOfExtension = {}
+		for ext in self.extensions:
+			countOfExtension[ext] = 0
+
+		for ext in self.allExtensions:
+			countOfExtension[ext] += 1
+
+		countOfExtensionSorted = sorted(countOfExtension.items(), key=lambda x: x[1], reverse=True)
+		self.countOfExtension = countOfExtensionSorted
+
 class FilePicker(object):
 	def __init__(self):
-		self.filesInfo = []
+		self.src = ""
+		self.dest = ""
+		self.defaultFolderName = "testdata"
 		self.filenamesPicked = []
-		self.statsInfos = ""
-		self.destFolderName = "testData"
 
 	def setSrc(self, src):
 		self.src = src
@@ -66,13 +82,12 @@ class FilePicker(object):
 		self.dest = dest
 
 	def setup(self):
-		self.getFilesInfos()
-		self.dInfos = DirInfo(self.filesInfo)
-		self.dInfo.
-		self.statsInfos = self.createStatsInfo()
+		self.dInfos = DirInfo()
+		fInfos = self.getFilesInfos()
+		self.dInfos.init(fInfos)
 
 	def setDefaultDest(self, src):
-		self.defaultDest = self.getParentDirectory(src)+self.destFolderName
+		self.defaultDest = self.getParentDirectory(src)+self.defaultFolderName
 
 	def getParentDirectory(self, s):
 		i = 0
@@ -91,10 +106,10 @@ class FilePicker(object):
 			copyfile(item, os.path.join(self.destPath, filename))
 
 	def getFilesInfos(self):
-		self.filesInfo = util.getFilesInfos(self.src)
+		return util.getFilesInfos(self.src)
 
-	def printFilesInfos(self):
-		for f in self.filesInfo:
+	def printFilesInfos(self, filesInfo):
+		for f in filesInfo:
 			print("{0}{1}{2} -> {3}".format(f.filepath,f.filename,f.extension, f.size))
 
 	def createStatsInfo(self):

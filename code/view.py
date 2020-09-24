@@ -94,8 +94,8 @@ class View():
 			self.numberRandomEntry.configure(state="disable")
 
 	def updateExtComboBox(self):
-		self.extComboBox.config(state="readonly", values=self.c.fp.dirInfo.extensions)
-		self.extComboBox.set(self.c.fp.dirInfo.mostFrequentExtension)
+		self.extComboBox.config(state="readonly", values=self.c.fp.dInfos.extensions)
+		self.extComboBox.set(self.c.fp.dInfos.mostFrequentExtension)
 
 	def afficherMenu(self):
 		self.frameMenu.pack()
@@ -128,9 +128,9 @@ class View():
 			self.updateExtComboBox()
 
 			self.infoListbox.configure(state='normal')
-			for s in self.c.fp.statsInfos:	
+			for s in self.c.fp.dInfos.statsInfo:
 				self.infoListbox.insert(END, s)
-				
+
 	# ------------------------------------------------------------
 
 	def open_directory_dest(self):
