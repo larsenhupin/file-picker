@@ -29,8 +29,7 @@ class Controller():
 	def pick(self):
 		self.setDestPath()
 		choosenExt = self.v.getChoosenExt()
-		self.fp.pick(choosenExt)
-
+		self.fp.pick_file(choosenExt)
 
 	def setDestPath(self):
 		self.fp.destEntryBox = self.v.pathDestEntryBox.get()+"/"

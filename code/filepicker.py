@@ -72,27 +72,31 @@ class FilePicker(object):
 	def __init__(self):
 		self.src = ""
 		self.dest = ""
-		self.dInfos = None
-		self.dInfosControl = []
-		self.defaultFolderName = "_file"
-		self.destfolderName = ""
-		self.defaultDestination = ""
-		self.destEntryBox = ""
 		self.ext = ""
+		self.dInfos = None
+
+		self.backup = []
+
+		self.defaultFolderName = "_file"
+		self.defaultPath = ""
+		self.destfolderName = ""
+		self.destEntryBox = ""
+
 		self.fInfoPicked = []
 		self.pathFileToCopy = []
-		self.pathFileCopied = []
 
 	def setup(self):
 		self.dInfos = DirInfo()
 		fInfos = self.getFilesInfos()
 		self.dInfos.init(fInfos)
 
-	def pick(self, ext):
+	def pick_file(self, ext):
 		self.ext = ext
-		self.generateFolderName(self.ext)
-		self.generateFinalDest()
+		self.setFolderName(self.ext)
+		self.setFinalDest()
 		util.makeDir(self.dest)
+
+
 
 		if not self.fInfoPicked:
 			self.pickFilesInfo()
@@ -103,7 +107,7 @@ class FilePicker(object):
 		if not self.pathFileToCopy:
 			self.generatePathFileToCopy()
 		else:
-			self.pushCopiedFile()
+			self.pushToBackup("copyTree")
 			self.generatePathFileToCopy()
 
 		util.copy_files(self.pathFileToCopy)
@@ -119,22 +123,28 @@ class FilePicker(object):
 
 		print(self.pathFileToCopy)
 
-	def generateFinalDest(self):
-		if(self.destEntryBox == ""):
-			folderDest = self.setDefaultDest(self.src)
+	def setFinalDest(self):
+
+
+		print(self.destEntryBox)
+
+		if(self.destEntryBox == "/"):
+			print("PATATE")
+			folderDest = self.getParentDirectory(self.src)
+			print(folderDest)
 			self.dest = folderDest+self.destFolderName
 		else:
 			self.dest = self.destEntryBox+self.destFolderName
 
-	def generateFolderName(self, ext):
+	def setFolderName(self, ext):
 		self.destFolderName = ext+self.defaultFolderName
 
-	def pushCopiedFile(self):
-		self.pathFileCopied.append(self.pathFileToCopy)
-		self.pathFileToCopy.clear()
-
-	def pushDirInfo(self):
-		 self.dInfosControl.append(self.dInfos)
+	def pushToBackup(self, tag):
+		if(tag == "dInfo"):
+			self.backup.append(self.dInfos)
+		if(tag == "copyTree"):
+			self.backup.append(self.pathFileToCopy)
+			self.pathFileToCopy.clear()
 
 	def setDefaultDest(self, src):
 		return self.getParentDirectory(src)

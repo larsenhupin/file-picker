@@ -128,13 +128,13 @@ class View():
 			self.c.fp.setDefaultDest(src)
 			# ---------------------------------------------------
 
-			self.pathDestEntryBox.config(state='normal')
+			self.pathDestEntryBox.config(state="normal")
 			self.pathDestEntryBox.delete(0, END)
 			self.pathDestEntryBox.config(state="readonly")
 			
 			
 			if(self.c.fp.dInfos is not None):
-				self.c.fp.pushDirInfo()
+				self.c.fp.pushToBackup("dInfo")
 				self.c.fp.fInfos = None
 
 			self.c.fp.setup()
