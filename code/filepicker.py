@@ -77,7 +77,7 @@ class FilePicker(object):
 
 		self.backup = []
 
-		self.defaultFolderName = "_file"
+		self.defaultFolderName = "pick_"
 		self.defaultPath = ""
 		self.destfolderName = ""
 		self.destEntryBox = ""
@@ -96,8 +96,7 @@ class FilePicker(object):
 		self.setFinalDest()
 		util.makeDir(self.dest)
 
-
-
+		# Function
 		if not self.fInfoPicked:
 			self.pickFilesInfo()
 		else:
@@ -109,6 +108,8 @@ class FilePicker(object):
 		else:
 			self.pushToBackup("copyTree")
 			self.generatePathFileToCopy()
+
+		# ------
 
 		util.copy_files(self.pathFileToCopy)
 	
@@ -124,20 +125,14 @@ class FilePicker(object):
 		print(self.pathFileToCopy)
 
 	def setFinalDest(self):
-
-
-		print(self.destEntryBox)
-
 		if(self.destEntryBox == "/"):
-			print("PATATE")
 			folderDest = self.getParentDirectory(self.src)
-			print(folderDest)
 			self.dest = folderDest+self.destFolderName
 		else:
 			self.dest = self.destEntryBox+self.destFolderName
 
 	def setFolderName(self, ext):
-		self.destFolderName = ext+self.defaultFolderName
+		self.destFolderName = self.defaultFolderName+ext
 
 	def pushToBackup(self, tag):
 		if(tag == "dInfo"):
@@ -145,9 +140,6 @@ class FilePicker(object):
 		if(tag == "copyTree"):
 			self.backup.append(self.pathFileToCopy)
 			self.pathFileToCopy.clear()
-
-	def setDefaultDest(self, src):
-		return self.getParentDirectory(src)
 
 	def setSrc(self, src):
 		self.src = src

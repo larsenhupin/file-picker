@@ -125,7 +125,7 @@ class View():
 
 			# --------------------------------------------------
 			self.c.fp.setSrc(src)
-			self.c.fp.setDefaultDest(src)
+			self.c.fp.getParentDirectory(src)
 			# ---------------------------------------------------
 
 			self.pathDestEntryBox.config(state="normal")
