@@ -1,16 +1,9 @@
 import filepicker as fp
 import util
-import view
 
 class Controller():
 	def __init__(self):
 		self.fp = fp.FilePicker()
-		self.v = view.View(self)
-		self.v.init()
-		self.bindEvents()
-		self.v.displayProgram()
-		self.v.afficherMenu()
-		self.v.root.mainloop()
 
 	def setup(self):
 		pass
@@ -18,21 +11,13 @@ class Controller():
 	def handle_click(self, event):
 		pass
 
-	def bindEvents(self):
-		self.v.programButton.config(command=self.v.displayProgram)
-		self.v.sameTypeCheckbox.config(command=self.v.getIsAllCheckbox)
-		self.v.pickRandomCheckbox.config(command=self.v.getIsRandomCheckbox)
-		self.v.pathSrcButton.config(command=self.v.open_directory_src)
-		self.v.pathDestButton.config(command=self.v.open_directory_dest)
-		self.v.pickButton.config(command=self.pick)
-
 	def pick(self):
 		self.setDestPath()
 		choosenExt = self.v.getChoosenExt()
 		self.fp.pick_file(choosenExt)
 
 	def setDestPath(self):
-		self.fp.destEntryBox = self.v.pathDestEntryBox.get()+"/"
+		self.fp.destEntryBox = ""
 
 	# ------------------------------------------------------------------------	
 
