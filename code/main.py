@@ -3,6 +3,7 @@ import util
 
 class Controller():
 	def __init__(self):
+		self.options = sys.argv[1]
 		self.fp = fp.FilePicker()
 
 	def setup(self):

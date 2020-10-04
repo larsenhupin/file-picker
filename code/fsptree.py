@@ -4,6 +4,7 @@ import util
 from collections import Counter
 import re
 
+
 class FileInfo(object):
 	def __init__(self, fileFullname , filepath, filename, extension, size):
 		self.fileFullname = fileFullname
